@@ -47,6 +47,9 @@ interface StatusUpdateEvent extends Event {
 interface PlayerEvent extends Event {
     players: Set<string>
 }
+interface ErrorEvent extends Event {
+    error: string
+}
 
 interface ObserverEventMap extends EventMap {
     'open': ServerStatusEvent
@@ -54,6 +57,7 @@ interface ObserverEventMap extends EventMap {
     'update': StatusUpdateEvent
     'players_join': PlayerEvent
     'players_leave': PlayerEvent
+    'error': ErrorEvent
 }
 
 export class MinecraftServerObserver extends EventEmitter<ObserverEventMap> {
@@ -99,7 +103,7 @@ export class MinecraftServerObserver extends EventEmitter<ObserverEventMap> {
     public status() {
         MinecraftAPI.getServerStatus(this.host, { port: this.port }, (err, res) => {
             if (err) {
-                console.error(err)
+                this.emit('error', { error: err })
                 return
             }
 

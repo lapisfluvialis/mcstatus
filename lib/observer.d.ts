@@ -45,12 +45,16 @@ interface StatusUpdateEvent extends Event {
 interface PlayerEvent extends Event {
     players: Set<string>;
 }
+interface ErrorEvent extends Event {
+    error: string;
+}
 interface ObserverEventMap extends EventMap {
     'open': ServerStatusEvent;
     'close': ServerStatusEvent;
     'update': StatusUpdateEvent;
     'players_join': PlayerEvent;
     'players_leave': PlayerEvent;
+    'error': ErrorEvent;
 }
 export declare class MinecraftServerObserver extends EventEmitter<ObserverEventMap> {
     private host;
