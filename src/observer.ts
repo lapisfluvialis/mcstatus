@@ -102,10 +102,15 @@ export class MinecraftServerObserver extends EventEmitter<ObserverEventMap> {
 
     public status() {
         MinecraftAPI.getServerStatus(this.host, { port: this.port }, (err, res) => {
+            const now = new Date()
+
             if (err) {
                 this.emit('error', { error: err })
+                console.error(`[${now.toLocaleTimeString()}] ${err}`)
                 return
             }
+
+            console.info(`[${now.toLocaleTimeString()}] getServerStatus: ${res.online ? 'online' : 'offline'}`)
 
             const was_online = this._online
             const is_online = res.online
@@ -136,12 +141,7 @@ export class MinecraftServerObserver extends EventEmitter<ObserverEventMap> {
                 this.emit('players_leave', { players: players_leave })
             }
 
-            console.log(res)
-            console.log(res.last_updated)
-            console.log(this.last_updated)
-
             if (this.last_updated !== res.last_updated) {
-                console.log({ last_updated: res.last_updated })
                 this.emit('update', { last_updated: res.last_updated })
                 this.last_updated = res.last_updated
             }
