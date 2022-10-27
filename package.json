@@ -1,0 +1,11 @@
+{
+  "name": "mcstatus",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/observer.js",
+  "author": "lapisfluvialis",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^4.8.4"
+  }
+}
